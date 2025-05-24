@@ -19,15 +19,21 @@ class Product {
   String name;
   float price;
   int quantity;
+  String category;
 
-  public Product(String name, float price, int quantity){
+  public Product(String name, float price, int quantity, String category){
     this.name = name;
     this.price = price;
     this.quantity = quantity;
+    this.category = category;
+  }
+
+  public Product(String name, float price, int quantity){
+    this(name, price, quantity, null);
   }
 
   ProductDto convertToDto() {
-    return new ProductDto(id, name, price, quantity);
+    return new ProductDto(id, name, price, quantity, category);
   }
 
 }

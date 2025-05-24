@@ -16,13 +16,10 @@ public class ShoppingListService {
   public ShoppingListService(ProductRepository productRepository) {
     this.productRepository = productRepository;
   }
-
   ProductDto addToShoppingList(AddProduct newProduct){
-
-    Product product = new Product(newProduct.name, newProduct.price, newProduct.quantity);
+    Product product = new Product(newProduct.name, newProduct.price, newProduct.quantity, newProduct.category);
     productRepository.save(product);
     return product.convertToDto();
-
   }
 
   void deleteFromShoppingList(DeleteProduct toDeleteProduct){
