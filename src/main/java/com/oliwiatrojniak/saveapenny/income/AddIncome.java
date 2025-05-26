@@ -1,16 +1,24 @@
 package com.oliwiatrojniak.saveapenny.income;
 
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-@Getter
+import java.time.LocalDate;
+
 public class AddIncome {
+  private String name;
+  private double price;
+  @JsonFormat(pattern = "yyyy-MM-dd")
+  private LocalDate date;
 
-  String name;
-  float price;
+  public AddIncome() {}
 
-  public AddIncome(String name, float price){
+  public AddIncome(String name, double price, LocalDate date) {
     this.name = name;
     this.price = price;
+    this.date = date;
   }
 
+  public String getName()    { return name; }
+  public double getPrice()   { return price; }
+  public LocalDate getDate() { return date; }
 }

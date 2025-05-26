@@ -15,15 +15,15 @@ public class ExpenseService {
   }
 
   public ExpenseDto addExpense(AddExpense request) {
-    Expense expense = new Expense(request.getExpense(), request.getAmount());
+    Expense expense = new Expense(request.getExpense(), request.getAmount(), request.getDate());
     Expense saved = repository.save(expense);
     return mapToDto(saved);
   }
 
   public List<ExpenseDto> showExpenses() {
     return repository.findAll().stream()
-        .map(this::mapToDto)
-        .collect(Collectors.toList());
+            .map(this::mapToDto)
+            .collect(Collectors.toList());
   }
 
   public void deleteExpense(DeleteExpense request) {
@@ -32,11 +32,11 @@ public class ExpenseService {
 
   public ExpenseDto findExpense(Long id) {
     Expense expense = repository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("Expense not found"));
+            .orElseThrow(() -> new IllegalArgumentException("Expense not found"));
     return mapToDto(expense);
   }
 
   private ExpenseDto mapToDto(Expense expense) {
-    return new ExpenseDto(expense.getId(), expense.getExpense(), expense.getAmount());
+    return new ExpenseDto(expense.getId(), expense.getExpense(), expense.getAmount(), expense.getDate());
   }
 }
