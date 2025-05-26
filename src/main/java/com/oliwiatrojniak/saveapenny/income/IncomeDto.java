@@ -1,27 +1,24 @@
 package com.oliwiatrojniak.saveapenny.income;
 
+import java.time.LocalDate;
+
 public class IncomeDto {
+  private Long id;
+  private String name;
+  private double price;
+  private LocalDate date;
 
-  long id;
-  String name;
-  float price;
+  public IncomeDto() {}
 
-  public IncomeDto(long id, String name, float price) {
+  public IncomeDto(Long id, String name, double price, LocalDate date) {
     this.id = id;
     this.name = name;
     this.price = price;
+    this.date = date;
   }
 
-  public long getId() {
-    return id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public float getPrice() {
-    return price;
-  }
-
+  public Long getId()        { return id; }
+  public String getName()    { return name; }
+  public double getPrice()   { return price; }
+  public LocalDate getDate() { return date; }
 }

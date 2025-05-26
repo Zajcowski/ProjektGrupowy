@@ -1,31 +1,40 @@
 package com.oliwiatrojniak.saveapenny.income;
 
-import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.experimental.FieldDefaults;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "income")
-class Income {
+public class Income {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  long id;
-  String name;
-  float price;
+  private Long id;
 
-  public Income(String name, float price){
+  private String name;
+  private double price;
+
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  private LocalDate date;
+
+  public Income() {}
+
+  public Income(String name, double price, LocalDate date) {
     this.name = name;
     this.price = price;
+    this.date = date;
   }
 
-  IncomeDto convertToDto() {
-    return new IncomeDto(id, name, price);
-  }
+  public Long getId()        { return id; }
+  public String getName()    { return name; }
+  public double getPrice()   { return price; }
+  public LocalDate getDate() { return date; }
 
+  public void setName(String name)     { this.name = name; }
+  public void setPrice(double price)   { this.price = price; }
+  public void setDate(LocalDate date)  { this.date = date; }
 }

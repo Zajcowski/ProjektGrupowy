@@ -1,47 +1,36 @@
 package com.oliwiatrojniak.saveapenny.income;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class IncomeService {
 
-  IncomeRepository incomeRepository;
+  private final IncomeRepository repository;
 
-  @Autowired
-  IncomeService(IncomeRepository incomeRepository) {
-    this.incomeRepository = incomeRepository;
+  public IncomeService(IncomeRepository repository) {
+    this.repository = repository;
   }
 
-  IncomeDto addIncome(AddIncome newIncome){
-
-    Income income = new Income(newIncome.name, newIncome.price);
-    incomeRepository.save(income);
-    return income.convertToDto();
-
+  public IncomeDto addIncome(AddIncome request) {
+    Income income = new Income(request.getName(), request.getPrice(), request.getDate());
+    Income saved = repository.save(income);
+    return mapToDto(saved);
   }
 
-  void deleteIncome(DeleteIncome toDeleteIncome){
-    incomeRepository.deleteById(toDeleteIncome.id);
+  public List<IncomeDto> showIncomes() {
+    return repository.findAll().stream()
+            .map(this::mapToDto)
+            .collect(Collectors.toList());
   }
 
-  IncomeDto findIncome(Long id) {
-    final Optional<Income> foundIncome = incomeRepository.findById(id);
-    if (foundIncome.isPresent()) {
-      return foundIncome.get().convertToDto();
-    } else {
-      throw new IncomeNotFound(id.toString());
-    }
+  public void deleteIncome(DeleteIncome request) {
+    repository.deleteById(request.getId());
   }
 
-  List<IncomeDto> showIncomes() {
-    return incomeRepository.findAll().stream()
-        .map(income -> income.convertToDto())
-        .collect(Collectors.toList());
+  private IncomeDto mapToDto(Income income) {
+    return new IncomeDto(income.getId(), income.getName(), income.getPrice(), income.getDate());
   }
-
 }
